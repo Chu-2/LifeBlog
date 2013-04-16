@@ -1,0 +1,4 @@
+venv
+local.db
+*.pyc
+.DS_Store
