@@ -1,8 +1,8 @@
 LifeBlog
 ========
 
-CIS422 Software Methodology II
+CIS423 Software Methodology II
 
 Course Project
 
-LifeBlog server API
+LifeBlog server API using Django REST framework
