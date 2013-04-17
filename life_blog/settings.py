@@ -125,6 +125,10 @@ INSTALLED_APPS = (
     
     'rest_framework',
     'rest_framework.authtoken',
+
+    'api',
+    'articles',
+    'authors',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -155,6 +159,8 @@ LOGGING = {
         },
     }
 }
+
+AUTH_USER_MODEL = 'authors.Author'
 
 import os
 if os.environ.get('HEROKU'):
