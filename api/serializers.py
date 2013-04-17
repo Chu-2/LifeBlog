@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from articles.models import Article
 from authors.models import Author
 
 HIDDEN_PASSWORD_STRING = '<hidden>'
@@ -20,9 +21,18 @@ class PasswordField(serializers.CharField):
 		"""Hide hashed-password in API display"""
 		return HIDDEN_PASSWORD_STRING
 
+class ArticleSerializer(serializers.ModelSerializer):
+	author = serializers.Field(source='author.username')
+
+	class Meta:
+		model = Article
+		fields = ('id', 'author', 'published', 'title', 'body')
+
 class UserSerializer(serializers.ModelSerializer):
 	password = PasswordField()
+	articles = serializers.PrimaryKeyRelatedField(many=True)
 
 	class Meta:
 		model = Author
-		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name')
+		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name', 'articles')
+
