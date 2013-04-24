@@ -27,12 +27,18 @@ class ArticleSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Article
 		fields = ('id', 'author', 'published', 'public', 'title', 'body')
-		
+
 class UserSerializer(serializers.ModelSerializer):
 	password = PasswordField()
-	articles = serializers.PrimaryKeyRelatedField(many=True)
+	# articles = serializers.PrimaryKeyRelatedField(many=True)
 
 	class Meta:
 		model = Author
-		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name', 'articles')
+		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name')
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+	password = PasswordField()
+	
+	class Meta:
+		model = Author
+		fields = ('password', 'date_of_birth', 'first_name', 'last_name')

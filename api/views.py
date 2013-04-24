@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
 from api.permissions import IsAuthor
-from api.serializers import UserSerializer, ArticleSerializer
+from api.serializers import UserSerializer, UserUpdateSerializer, ArticleSerializer
 from articles.models import Article
 from authors.models import Author
 
@@ -30,3 +30,12 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
 	model = Author
 	serializer_class = UserSerializer
+
+class UserUpdate(generics.UpdateAPIView):
+	model = Author
+	serializer_class = UserUpdateSerializer
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def get_object(self):
+		return self.request.user
