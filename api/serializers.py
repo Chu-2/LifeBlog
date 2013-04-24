@@ -26,8 +26,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'title', 'body')
-
+		fields = ('id', 'author', 'published', 'public', 'title', 'body')
+		
 class UserSerializer(serializers.ModelSerializer):
 	password = PasswordField()
 	articles = serializers.PrimaryKeyRelatedField(many=True)
