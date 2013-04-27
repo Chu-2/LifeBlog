@@ -38,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
 	password = PasswordField()
-	
+
 	class Meta:
 		model = Author
-		fields = ('password', 'date_of_birth', 'first_name', 'last_name')
+		fields = ('password', 'date_of_birth', 'email', 'first_name', 'last_name')
