@@ -39,3 +39,12 @@ class UserUpdate(generics.UpdateAPIView):
 
 	def get_object(self):
 		return self.request.user
+
+class UserArticle(generics.ListAPIView):
+	model = Article
+	serializer_class = ArticleSerializer
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (permissions.IsAuthenticated, IsAuthor)
+	
+	def get_queryset(self):
+		return Article.objects.filter(author=self.request.user)
