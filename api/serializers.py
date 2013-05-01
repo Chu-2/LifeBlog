@@ -30,11 +30,12 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 	password = PasswordField()
+	age = serializers.Field(source='get_age')
 	# articles = serializers.PrimaryKeyRelatedField(many=True)
 
 	class Meta:
 		model = Author
-		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name')
+		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name', 'age')
 
 class UserUpdateSerializer(serializers.ModelSerializer):
 	password = PasswordField()

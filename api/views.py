@@ -44,7 +44,7 @@ class UserArticle(generics.ListAPIView):
 	model = Article
 	serializer_class = ArticleSerializer
 	authentication_classes = (TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated, IsAuthor)
+	permission_classes = (permissions.IsAuthenticated,)
 	
 	def get_queryset(self):
 		return Article.objects.filter(author=self.request.user)
