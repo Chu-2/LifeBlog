@@ -4,6 +4,7 @@ from api import views
 
 urlpatterns = format_suffix_patterns(patterns('api.views',
 	url(r'^users/$', views.UserList.as_view()),
+	url(r'^users/register/$', views.UserRegister.as_view()),
 	url(r'^users/update_profile/$', views.UserUpdate.as_view()),
 	url(r'^users/list_article/$', views.UserArticle.as_view()),
 	url(r'^articles/$', views.ArticleList.as_view()),

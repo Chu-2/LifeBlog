@@ -2,7 +2,12 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
 from api.permissions import IsAuthor
-from api.serializers import UserSerializer, UserUpdateSerializer, ArticleSerializer
+from api.serializers import (
+	UserListSerializer,
+	UserRegisterSerializer,
+	UserUpdateSerializer,
+	ArticleSerializer
+)
 from articles.models import Article
 from authors.models import Author
 
@@ -27,9 +32,13 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 	def pre_save(self, obj):
 		obj.author = self.request.user
 
-class UserList(generics.ListCreateAPIView):
+class UserList(generics.ListAPIView):
 	model = Author
-	serializer_class = UserSerializer
+	serializer_class = UserListSerializer
+
+class UserRegister(generics.CreateAPIView):
+	model = Author
+	serializer_class = UserRegisterSerializer
 
 class UserUpdate(generics.UpdateAPIView):
 	model = Author
