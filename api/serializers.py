@@ -26,7 +26,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'public', 'title', 'body')
+		fields = ('id', 'author', 'published', 'public', 'views', 'title', 'body')
 
 class UserListSerializer(serializers.ModelSerializer):
 	age = serializers.Field(source='get_age')

@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
@@ -31,6 +32,11 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 
 	def pre_save(self, obj):
 		obj.author = self.request.user
+
+	def get_queryset(self):
+		queryset = Article.objects.filter(pk=self.kwargs['pk'])
+		queryset.update(views=F('views')+1)
+		return queryset
 
 class UserList(generics.ListAPIView):
 	model = Author
