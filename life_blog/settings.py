@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'api',
     'articles',
     'authors',
+    'comments',
 )
 
 # A sample logging configuration. The only tangible logging

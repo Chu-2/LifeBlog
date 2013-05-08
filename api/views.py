@@ -7,19 +7,18 @@ from api.serializers import (
 	UserListSerializer,
 	UserRegisterSerializer,
 	UserUpdateSerializer,
-	ArticleSerializer
+	ArticleListSerializer,
+	ArticleCreateSerializer,
+	ArticleDetailSerializer,
+	CommentSerializer
 )
 from articles.models import Article
 from authors.models import Author
+from comments.models import Comment
 
-class ArticleList(generics.ListCreateAPIView):
+class ArticleList(generics.ListAPIView):
 	model = Article
-	serializer_class = ArticleSerializer
-	authentication_classes = (TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-	def pre_save(self, obj):
-		obj.author = self.request.user
+	serializer_class = ArticleListSerializer
 
 	def get_queryset(self):
 		queryset = Article.objects.filter(public=True)
@@ -33,9 +32,18 @@ class ArticleList(generics.ListCreateAPIView):
 				queryset = queryset.order_by(order)
 		return queryset
 
+class ArticleCreate(generics.CreateAPIView):
+	model = Article
+	serializer_class = ArticleCreateSerializer
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def pre_save(self, obj):
+		obj.author = self.request.user
+
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 	model = Article
-	serializer_class = ArticleSerializer
+	serializer_class = ArticleDetailSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsAuthor)
 
@@ -46,6 +54,16 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 		queryset = Article.objects.filter(pk=self.kwargs['pk'])
 		queryset.update(views=F('views')+1)
 		return queryset
+
+class ArticleComment(generics.CreateAPIView):
+	model = Comment
+	serializer_class = CommentSerializer
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def pre_save(self, obj):
+		obj.author = self.request.user
+		obj.article = Article.objects.get(pk=self.kwargs['pk'])
 
 class UserList(generics.ListAPIView):
 	model = Author
@@ -82,7 +100,7 @@ class UserUpdate(generics.UpdateAPIView):
 
 class UserArticle(generics.ListAPIView):
 	model = Article
-	serializer_class = ArticleSerializer
+	serializer_class = ArticleListSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
 	

@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from articles.models import Article
 from authors.models import Author
+from comments.models import Comment
 
 HIDDEN_PASSWORD_STRING = '<hidden>'
 
@@ -21,12 +22,33 @@ class PasswordField(serializers.CharField):
 		"""Hide hashed-password in API display"""
 		return HIDDEN_PASSWORD_STRING
 
-class ArticleSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
 
 	class Meta:
+		model = Comment
+		fields = ('author', 'published', 'title', 'body')
+
+class ArticleListSerializer(serializers.ModelSerializer):
+	author = serializers.Field(source='author.username')
+	comments = serializers.Field(source='count_comments')
+
+	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'public', 'views', 'title', 'body')
+		fields = ('id', 'author', 'published', 'public', 'views', 'comments', 'title')
+
+class ArticleCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Article
+		fields = ('public', 'title', 'body')
+
+class ArticleDetailSerializer(serializers.ModelSerializer):
+	author = serializers.Field(source='author.username')
+	comments = CommentSerializer(many=True)
+
+	class Meta:
+		model = Article
+		fields = ('id', 'author', 'published', 'public', 'views', 'title', 'body', 'comments')
 
 class UserListSerializer(serializers.ModelSerializer):
 	age = serializers.Field(source='get_age')
