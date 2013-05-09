@@ -54,9 +54,16 @@ class UserListSerializer(serializers.ModelSerializer):
 	age = serializers.Field(source='get_age')
 	# articles = serializers.PrimaryKeyRelatedField(many=True)
 
+	# Will delete this in next version
+	password = PasswordField()
+
 	class Meta:
 		model = Author
-		fields = ('id', 'username', 'email', 'first_name', 'last_name', 'age')
+		# This is really deprecated, only here for compatible reason. Will use the other one below for next iteration.
+		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name', 'age')
+
+		# This is perfered since it hides password and date_of_birth field.
+		# fields = ('id', 'username', 'email', 'first_name', 'last_name', 'age')
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	password = PasswordField()

@@ -65,7 +65,7 @@ class ArticleComment(generics.CreateAPIView):
 		obj.author = self.request.user
 		obj.article = Article.objects.get(pk=self.kwargs['pk'])
 
-class UserList(generics.ListAPIView):
+class UserList(generics.ListCreateAPIView):
 	model = Author
 	serializer_class = UserListSerializer
 
