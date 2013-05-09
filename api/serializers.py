@@ -24,7 +24,7 @@ class PasswordField(serializers.CharField):
 
 class CommentSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
-	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
+	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z', read_only=True)
 
 	class Meta:
 		model = Comment
