@@ -24,6 +24,7 @@ class PasswordField(serializers.CharField):
 
 class CommentSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
+	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
 
 	class Meta:
 		model = Comment
@@ -31,6 +32,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
+	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
 	comments = serializers.Field(source='count_comments')
 
 	class Meta:
@@ -38,12 +40,15 @@ class ArticleListSerializer(serializers.ModelSerializer):
 		fields = ('id', 'author', 'published', 'public', 'views', 'comments', 'title')
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
+	author = serializers.Field(source='author.username')
+
 	class Meta:
 		model = Article
-		fields = ('public', 'title', 'body')
+		fields = ('id', 'author', 'published', 'public', 'title', 'body')
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
+	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
 	comments = CommentSerializer(many=True)
 
 	class Meta:
