@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.staticfiles',
     
     'rest_framework',
     'rest_framework.authtoken',
@@ -171,3 +172,8 @@ if os.environ.get('HEROKU'):
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+elif os.environ.get('TERM') == 'linux':
+    MEDIA_ROOT = '/home/ruiqi/Projects/django_media/'
+    STATIC_ROOT = '/home/ruiqi/Projects/django_static/'
+
