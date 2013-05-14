@@ -16,6 +16,9 @@ from articles.models import Article
 from authors.models import Author
 from comments.models import Comment
 
+ALLOWED_ARTICLE_ORDERS = ['id', '-id', 'published', '-published', 'views', '-views', 'title', '-title']
+ALLOWED_USER_ORDERS = ['id', '-id', 'username', '-username', 'first_name', '-first_name', 'last_name', '-last_name', 'age', '-age']
+
 class ArticleList(generics.ListAPIView):
 	model = Article
 	serializer_class = ArticleListSerializer
@@ -23,13 +26,8 @@ class ArticleList(generics.ListAPIView):
 	def get_queryset(self):
 		queryset = Article.objects.filter(public=True)
 		order = self.request.QUERY_PARAMS.get('order', None)
-		if order is not None:
-			# really dislike this part of code, but I can't get Django's FieldError exception to work :/
-			if (order == 'id' or order == '-id' or
-				order == 'published' or order == '-published' or
-				order == 'views' or order == '-views' or
-				order == 'title' or order == '-title'):
-				queryset = queryset.order_by(order)
+		if order is not None and order in ALLOWED_ARTICLE_ORDERS:
+			queryset = queryset.order_by(order)
 		return queryset
 
 class ArticleCreate(generics.CreateAPIView):
@@ -72,16 +70,12 @@ class UserList(generics.ListCreateAPIView):
 	def get_queryset(self):
 		queryset = Author.objects.all()
 		order = self.request.QUERY_PARAMS.get('order', None)
-		if order is not None:
-			# really dislike this part of code, but I can't get Django's FieldError exception to work :/
+		if order is not None and order in ALLOWED_USER_ORDERS:
 			if order == 'age':
 				queryset = queryset.order_by('-date_of_birth')
 			elif order == '-age':
 				queryset = queryset.order_by('date_of_birth')
-			elif (order == 'id' or order == '-id' or
-				  order == 'username' or order == '-username' or
-				  order == 'first_name' or order == '-first_name' or
-				  order == 'last_name' or order == '-last_name'):
+			else:
 				queryset = queryset.order_by(order)
 		return queryset
 
