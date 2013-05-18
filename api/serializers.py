@@ -32,12 +32,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
+	age_range = serializers.Field(source='get_age_range')
 	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
 	comments = serializers.Field(source='count_comments')
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'public', 'views', 'comments', 'title')
+		fields = ('id', 'author', 'age_range', 'published', 'public', 'views', 'comments', 'title')
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
@@ -48,27 +49,21 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
+	age_range = serializers.Field(source='get_age_range')
 	published = serializers.DateTimeField(format='%b %d, %Y %I:%M%p %Z')
 	comments = CommentSerializer(many=True)
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'public', 'views', 'title', 'body', 'comments')
+		fields = ('id', 'author', 'age_range', 'published', 'public', 'views', 'title', 'body', 'comments')
 
 class UserListSerializer(serializers.ModelSerializer):
 	age = serializers.Field(source='get_age')
 	# articles = serializers.PrimaryKeyRelatedField(many=True)
 
-	# Will delete this in next version
-	password = PasswordField()
-
 	class Meta:
 		model = Author
-		# This is really deprecated, only here for compatible reason. Will use the other one below for next iteration.
-		fields = ('id', 'username', 'password', 'date_of_birth', 'email', 'first_name', 'last_name', 'age')
-
-		# This is perfered since it hides password and date_of_birth field.
-		# fields = ('id', 'username', 'email', 'first_name', 'last_name', 'age')
+		fields = ('id', 'username', 'email', 'first_name', 'last_name', 'age')
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	password = PasswordField()

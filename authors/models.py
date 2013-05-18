@@ -11,11 +11,12 @@ class Author(AbstractUser):
 
 	def get_age(self):
 		today = date.today()
+		born = self.date_of_birth
 		try:
-			birthday = self.date_of_birth.replace(year=today.year)
+			birthday = born.replace(year=today.year)
 		except ValueError: # raised when birth date is February 29 and the current year is not a leap year
-			birthday = self.date_of_birth.replace(year=today.year, day=born.day-1)
-		return today.year - self.date_of_birth.year - (birthday > today)
+			birthday = born.replace(year=today.year, day=born.day-1)
+		return today.year - born.year - (birthday > today)
 
 	class Meta:
 		app_label = 'authors'
