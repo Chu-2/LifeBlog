@@ -65,7 +65,7 @@ class ArticleCreate(generics.CreateAPIView):
 	serializer_class = ArticleCreateSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
-	
+
 	def pre_save(self, obj):
 		obj.author = self.request.user
 
@@ -127,6 +127,6 @@ class UserArticle(generics.ListAPIView):
 	serializer_class = ArticleListSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
-	
+
 	def get_queryset(self):
 		return Article.objects.filter(author=self.request.user)

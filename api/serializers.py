@@ -45,7 +45,7 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'published', 'public', 'title', 'body')
+		fields = ('id', 'author', 'published', 'public', 'title', 'body', 'background')
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
 	author = serializers.Field(source='author.username')
@@ -55,7 +55,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
-		fields = ('id', 'author', 'age_range', 'published', 'public', 'views', 'title', 'body', 'comments')
+		fields = ('id', 'author', 'age_range', 'published', 'public', 'views', 'title', 'body', 'comments', 'background')
 
 class UserListSerializer(serializers.ModelSerializer):
 	age = serializers.Field(source='get_age')
