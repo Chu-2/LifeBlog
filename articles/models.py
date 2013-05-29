@@ -28,14 +28,17 @@ class Article(models.Model):
             return 5
         return age
 
-    """
-    def save(self, size=(200, 200)):
-        super(Article, self).save()
+    def save(self, *args, **kwargs):
+        super(Article, self).save(*args, **kwargs)
 
+        if not self.background:
+            return
+
+        normal_size = (480, 800)
         pw = self.background.width
         ph = self.background.height
-        nw = size[0]
-        nh = size[1]
+        nw = normal_size[0]
+        nh = normal_size[1]
 
         # only do this if the image needs resizing
         if (pw, ph) != (nw, nh):
@@ -48,24 +51,23 @@ class Article(models.Model):
                 # photo aspect is wider than destination ratio
                 tw = int(round(nh * pr))
                 image = image.resize((tw, nh), Image.ANTIALIAS)
-                l = int(round(( tw - nw ) / 2.0))
+                l = int(round((tw - nw) / 2.0))
                 image = image.crop((l, 0, l + nw, nh))
             elif pr < nr:
                 # photo aspect is taller than destination ratio
                 th = int(round(nw / pr))
                 image = image.resize((nw, th), Image.ANTIALIAS)
-                t = int(round(( th - nh ) / 2.0))
+                t = int(round((th - nh) / 2.0))
                 print((0, t, nw, t + nh))
                 image = image.crop((0, t, nw, t + nh))
             else:
                 # photo aspect matches the destination ratio
-                image = image.resize(size, Image.ANTIALIAS)
+                image = image.resize(normal_size, Image.ANTIALIAS)
 
             image.save(filename)
 
     def __unicode__(self):
         return self.title
-    """
 
     class Meta:
         ordering = ('published',)
