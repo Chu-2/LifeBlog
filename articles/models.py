@@ -1,3 +1,4 @@
+from django.core.files import File
 from django.db import models
 import Image
 
@@ -32,6 +33,7 @@ class Article(models.Model):
         super(Article, self).save(*args, **kwargs)
 
         if not self.background:
+            self.background = 'article/default.jpg'
             return
 
         normal_size = (480, 800)
