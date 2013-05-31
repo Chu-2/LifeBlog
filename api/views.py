@@ -1,5 +1,5 @@
 from django.db.models import F
-from datetime import date
+from datetime import date, timedelta
 from itertools import chain
 from rest_framework import filters
 from rest_framework import generics
@@ -39,19 +39,19 @@ class ArticleList(generics.ListAPIView):
 
         today = date.today()
 
-        start_date = today.replace(year=today.year-13, day=today.day+1)
+        start_date = today.replace(year=today.year-13) + timedelta(days=1)
         end_date = today
         q1 = queryset.filter(author__date_of_birth__range=(start_date, end_date))[:8]
 
-        start_date = today.replace(year=today.year-19, day=today.day+1)
+        start_date = today.replace(year=today.year-19) + timedelta(days=1)
         end_date = today.replace(year=today.year-13)
         q2 = queryset.filter(author__date_of_birth__range=(start_date, end_date))[:8]
 
-        start_date = today.replace(year=today.year-36, day=today.day+1)
+        start_date = today.replace(year=today.year-36) + timedelta(days=1)
         end_date = today.replace(year=today.year-19)
         q3 = queryset.filter(author__date_of_birth__range=(start_date, end_date))[:8]
 
-        start_date = today.replace(year=today.year-61, day=today.day+1)
+        start_date = today.replace(year=today.year-61) + timedelta(days=1)
         end_date = today.replace(year=today.year-36)
         q4 = queryset.filter(author__date_of_birth__range=(start_date, end_date))[:8]
 

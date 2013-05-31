@@ -1,4 +1,3 @@
-from django.core.files import File
 from django.db import models
 import Image
 
@@ -30,11 +29,12 @@ class Article(models.Model):
         return age
 
     def save(self, *args, **kwargs):
-        super(Article, self).save(*args, **kwargs)
-
         if not self.background:
-            self.background = 'article/default.jpg'
+            self.background = 'article_bg/default.jpg'
+            super(Article, self).save(*args, **kwargs)
             return
+
+        super(Article, self).save(*args, **kwargs)
 
         normal_size = (480, 800)
         pw = self.background.width
