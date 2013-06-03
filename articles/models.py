@@ -30,7 +30,7 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.background:
-            self.background = 'article_bg/default.jpg'
+            self.background = 'article_bg/default/default1.jpg'
             super(Article, self).save(*args, **kwargs)
             return
 

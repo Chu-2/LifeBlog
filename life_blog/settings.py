@@ -126,6 +126,8 @@ INSTALLED_APPS = (
     'articles',
     'authors',
     'comments',
+
+    #'django_cleanup',
 )
 
 # A sample logging configuration. The only tangible logging

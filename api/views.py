@@ -10,6 +10,7 @@ from api.serializers import (
     UserListSerializer,
     UserRegisterSerializer,
     UserUpdateSerializer,
+    UserProfileSerializer,
     ArticleListSerializer,
     ArticleCreateSerializer,
     ArticleDetailSerializer,
@@ -128,3 +129,16 @@ class UserArticle(generics.ListAPIView):
 
     def get_queryset(self):
         return Article.objects.filter(author=self.request.user)
+
+
+class UserProfile(generics.RetrieveAPIView):
+    model = Author
+    serializer_class = UserProfileSerializer
+
+
+class UserPublicArticle(generics.ListAPIView):
+    model = Article
+    serializer_class = ArticleListSerializer
+    filter_backends = (filters.OrderingFilter,)
+    ordering = ('id', 'published', 'views', 'title')
+    queryset = Article.objects.filter(public=True)

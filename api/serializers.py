@@ -60,12 +60,10 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'author', 'age_range', 'published', 'public', 'views', 'title', 'body', 'comments', 'background')
 
 
 class UserListSerializer(serializers.ModelSerializer):
     age = serializers.Field(source='get_age')
-    # articles = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
         model = Author
@@ -86,3 +84,12 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ('password', 'date_of_birth', 'email', 'first_name', 'last_name')
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    age = serializers.Field(source='get_age')
+    # articles = serializers.PrimaryKeyRelatedField(many=True)
+
+    class Meta:
+        model = Author
+        exclude = ('password', 'date_of_birth')
