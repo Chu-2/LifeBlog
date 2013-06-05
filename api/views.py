@@ -141,4 +141,6 @@ class UserPublicArticle(generics.ListAPIView):
     serializer_class = ArticleListSerializer
     filter_backends = (filters.OrderingFilter,)
     ordering = ('id', 'published', 'views', 'title')
-    queryset = Article.objects.filter(public=True)
+
+    def get_queryset(self):
+        return Article.objects.filter(public=True, author__pk=self.kwargs['pk'])
